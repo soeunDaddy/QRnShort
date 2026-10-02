@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="긴 URL을 빠르고 간편하게 단축하고, 원클릭 복사 및 QR 코드 변환까지 지원하는 스마트 URL 단축기입니다.">
+  <title>ShortLink Studio - 스마트 URL 단축기</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="initial-state">
+  <!-- Background Glow & Mesh Elements -->
+  <div class="bg-mesh">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+  <div class="mouse-spotlight" id="mouseSpotlight"></div>
+
+  <!-- Header Section with Brand Logo & Navigation Switcher -->
+  <header class="app-header">
+    <div class="header-left">
+      <a href="index.html" class="brand-logo" id="brandResetBtn" title="ShortLink Studio 홈">
+        <div class="logo-icon-wrap">
+          <i class="fa-solid fa-link"></i>
+        </div>
+        <div class="brand-info">
+          <span class="brand-title">ShortLink</span>
+          <span class="brand-badge">PRO</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Navigation Tab Buttons (QR코드 / URL단축 전환) -->
+    <nav class="nav-switcher" aria-label="기능 전환 네비게이션">
+      <a href="../url2qr/index.html" class="nav-tab" id="navQrBtn" title="QR 코드 생성기">
+        <i class="fa-solid fa-qrcode"></i>
+        <span>QR코드</span>
+      </a>
+      <a href="index.html" class="nav-tab active" id="navShortBtn" title="URL 단축 서비스">
+        <i class="fa-solid fa-link"></i>
+        <span>URL단축</span>
+      </a>
+    </nav>
+
+    <div class="header-right">
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        <span>OpenAPI Shortener</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main class="main-container">
+
+    <!-- Shortened Result Presentation Card (Appears after URL shortened) -->
+    <section class="result-display-section" id="resultDisplaySection" aria-label="단축 결과">
+      <div class="result-card" id="resultCard">
+        <div class="result-card-glass-glow"></div>
+        
+        <div class="result-card-header">
+          <div class="result-badge">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>단축 완료</span>
+          </div>
+          <span class="ratio-badge" id="ratioBadge">-0% 절감</span>
+        </div>
+
+        <!-- Original URL Info -->
+        <div class="original-url-row">
+          <span class="url-meta-tag"><i class="fa-solid fa-arrow-turn-down"></i> 원본 URL</span>
+          <p class="original-url-text" id="originalUrlDisplay" title="원본 링크"></p>
+        </div>
+
+        <!-- Read-Only Output Box & Copy Button -->
+        <div class="output-box-wrapper">
+          <div class="output-input-group">
+            <div class="output-icon">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <input 
+              type="text" 
+              id="shortUrlOutput" 
+              class="short-url-output" 
+              readonly 
+              placeholder="단축된 URL이 여기에 표시됩니다" 
+              aria-label="단축된 URL 결과 (읽기 전용)"
+            >
+          </div>
+          <button type="button" class="copy-action-btn" id="copyBtn" title="단축 URL 클립보드에 복사">
+            <i class="fa-regular fa-copy" id="copyIcon"></i>
+            <span id="copyBtnText">복사</span>
+          </button>
+        </div>
+
+        <!-- Result Card Action Toolbar -->
+        <div class="result-card-actions">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="action-chip" id="visitUrlBtn" title="새 창에서 단축 URL 열기">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            <span>방문하기</span>
+          </a>
+          <button type="button" class="action-chip highlight-chip" id="openInQrBtn" title="이 단축 URL로 QR 코드 생성하기">
+            <i class="fa-solid fa-qrcode"></i>
+            <span>QR코드 생성</span>
+          </button>
+          <button type="button" class="action-chip text-chip" id="resetShortenerBtn" title="새로운 URL 단축하기">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>다시 단축</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Floating Hero & URL Input Form Section -->
+    <section class="interaction-container" id="interactionContainer">
+      
+      <!-- Hero Intro (Visible in Initial State) -->
+      <div class="hero-intro" id="heroIntro">
+        <h1 class="hero-title">
+          초고속 <span class="text-gradient">스마트 URL 단축</span>
+        </h1>
+        <p class="hero-subtitle">
+          복잡하고 긴 링크를 1초 만에 깔끔한 단축 URL로 줄이고, 원클릭 복사와 QR코드 연동까지 편리하게 이용하세요.
+        </p>
+      </div>
+
+      <!-- URL Input Form -->
+      <form class="url-input-form" id="shortenForm" autocomplete="off" onsubmit="return false;">
+        <div class="input-glass-box">
+          <div class="input-icon-wrap">
+            <i class="fa-solid fa-link"></i>
+          </div>
+          <input 
+            type="text" 
+            id="urlInput" 
+            class="url-input-field" 
+            placeholder="단축할 웹사이트 URL 입력 (예: https://example.com/very/long/path...)" 
+            aria-label="단축할 URL 입력"
+            spellcheck="false"
+            required
+          >
+          <button type="button" class="input-clear-btn" id="clearInputBtn" aria-label="입력 내용 지우기" style="display:none;">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <button type="submit" class="submit-btn" id="shortenBtn" disabled aria-label="URL 단축하기">
+            <span class="btn-text" id="shortenBtnText">단축하기</span>
+            <i class="fa-solid fa-bolt btn-icon" id="shortenBtnIcon"></i>
+          </button>
+        </div>
+
+        <!-- Quick Suggestions (Initial Mode) -->
+        <div class="quick-suggests" id="quickSuggests">
+          <span class="suggest-label">빠른 테스트:</span>
+          <button type="button" class="suggest-tag" data-url="https://ko.wikipedia.org/wiki/%ED%81%B4%EB%A6%BD%EB%B3%B4%EB%93%9C">Wikipedia</button>
+          <button type="button" class="suggest-tag" data-url="https://www.youtube.com/watch?v=dQw4w9WgXcQ">YouTube</button>
+          <button type="button" class="suggest-tag" data-url="https://github.com/trending?since=daily">GitHub</button>
+          <button type="button" class="suggest-tag" data-url="https://maps.google.com/?q=Seoul+Tower">Google Map</button>
+        </div>
+      </form>
+
+      <!-- Recent History Container -->
+      <div class="history-card" id="historyCard" style="display: none;">
+        <div class="history-header">
+          <div class="history-title">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>최근 단축 기록</span>
+          </div>
+          <button type="button" class="history-clear-btn" id="clearHistoryBtn" title="기록 지우기">
+            <i class="fa-solid fa-trash-can"></i> 전체 삭제
+          </button>
+        </div>
+        <ul class="history-list" id="historyList"></ul>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast-container" id="toastContainer" aria-live="polite">
+    <div class="toast" id="toast">
+      <i class="toast-icon fa-solid fa-circle-check"></i>
+      <span class="toast-message" id="toastMessage">알림 내용</span>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

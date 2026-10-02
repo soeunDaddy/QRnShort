@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="URL을 입력하여 손쉽게 QR 코드를 생성하고 고화질 JPG 이미지로 다운로드하세요.">
+  <title>QR Studio - 스마트 QR 코드 생성기</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- QRCode Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="initial-state">
+  <!-- Background Glow & Mesh Elements -->
+  <div class="bg-mesh">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+  <div class="mouse-spotlight" id="mouseSpotlight"></div>
+
+  <!-- Header Section with Logo and Navigation -->
+  <header class="app-header">
+    <div class="header-left">
+      <a href="index.html" class="brand-logo" id="brandResetBtn" title="QR Studio 홈">
+        <img src="img/logo.png" alt="QR Studio Logo" class="logo-image" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';">
+        <div id="logoFallback" class="logo-fallback" style="display:none;">
+          <i class="fa-solid fa-qrcode"></i>
+        </div>
+        <div class="brand-info">
+          <span class="brand-title">QR Studio</span>
+          <span class="brand-badge">PRO</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Navigation Tab Buttons (QR코드 / URL단축 전환) -->
+    <nav class="nav-switcher" aria-label="기능 전환 네비게이션">
+      <a href="index.html" class="nav-tab active" id="navQrBtn" title="QR 코드 생성기">
+        <i class="fa-solid fa-qrcode"></i>
+        <span>QR코드</span>
+      </a>
+      <a href="../urlShort/index.html" class="nav-tab" id="navShortBtn" title="URL 단축 서비스">
+        <i class="fa-solid fa-link"></i>
+        <span>URL단축</span>
+      </a>
+    </nav>
+
+    <div class="header-right">
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        <span>Instant Generator</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main class="main-container">
+
+    <!-- QR Code Presentation Card (Appears in dead center after URL submitted) -->
+    <section class="qr-display-section" id="qrDisplaySection" aria-label="생성된 QR 코드">
+      <div class="qr-card" id="qrCard" title="클릭하여 JPG 파일로 다운로드">
+        <div class="qr-card-glass-glow"></div>
+        <div class="qr-card-header">
+          <div class="qr-card-badge">
+            <i class="fa-solid fa-cloud-arrow-down"></i> 클릭하여 JPG 다운로드
+          </div>
+          <span class="format-tag">High Quality JPG</span>
+        </div>
+
+        <div class="qr-wrapper" id="qrWrapper">
+          <div id="qrcode" class="qrcode-canvas-container"></div>
+          <div class="qr-hover-overlay">
+            <div class="overlay-content">
+              <i class="fa-solid fa-download"></i>
+              <span>JPG 다운로드</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qr-card-footer">
+          <p class="qr-target-url" id="displayUrl" title="클릭 시 새 탭에서 열기"></p>
+          <div class="qr-action-chips">
+            <button type="button" class="chip-btn" id="copyUrlBtn" title="URL 복사">
+              <i class="fa-regular fa-copy"></i> URL 복사
+            </button>
+            <button type="button" class="chip-btn primary-chip" id="downloadJpgBtn" title="JPG 다운로드">
+              <i class="fa-solid fa-download"></i> JPG 저장
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Floating Hero & URL Input Section (Initial: Centered, After: Docked to Bottom) -->
+    <section class="interaction-container" id="interactionContainer">
+      
+      <!-- Hero Intro (Visible in Initial State) -->
+      <div class="hero-intro" id="heroIntro">
+        <h1 class="hero-title">
+          세상에서 가장 쉬운 <span class="text-gradient">스마트 QR</span> 생성
+        </h1>
+        <p class="hero-subtitle">
+          URL을 입력하면 즉시 감각적인 QR 코드가 생성되며, 클릭 한 번으로 고화질 JPG로 저장됩니다.
+        </p>
+      </div>
+
+      <!-- URL Input Form -->
+      <form class="url-input-form" id="urlForm" autocomplete="off" onsubmit="return false;">
+        <div class="input-glass-box">
+          <div class="input-icon-wrap">
+            <i class="fa-solid fa-link"></i>
+          </div>
+          <input 
+            type="text" 
+            id="urlInput" 
+            class="url-input-field" 
+            placeholder="생성할 웹사이트 주소 또는 텍스트 입력 (예: https://example.com)" 
+            aria-label="QR 코드로 변환할 URL 입력"
+            spellcheck="false"
+            required
+          >
+          <button type="button" class="input-clear-btn" id="clearInputBtn" aria-label="입력 내용 지우기" style="display:none;">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <button type="submit" class="submit-btn" id="submitBtn" aria-label="QR 코드 생성 확인">
+            <span class="btn-text">확인</span>
+            <i class="fa-solid fa-arrow-right btn-icon"></i>
+          </button>
+        </div>
+
+        <!-- Quick Suggestions (Initial Mode) -->
+        <div class="quick-suggests" id="quickSuggests">
+          <span class="suggest-label">빠른 테스트:</span>
+          <button type="button" class="suggest-tag" data-url="https://naver.com">Naver</button>
+          <button type="button" class="suggest-tag" data-url="https://google.com">Google</button>
+          <button type="button" class="suggest-tag" data-url="https://youtube.com">YouTube</button>
+          <button type="button" class="suggest-tag" data-url="https://instagram.com">Instagram</button>
+        </div>
+      </form>
+
+    </section>
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast-container" id="toastContainer" aria-live="polite">
+    <div class="toast" id="toast">
+      <i class="toast-icon fa-solid fa-circle-check"></i>
+      <span class="toast-message" id="toastMessage">알림 내용</span>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

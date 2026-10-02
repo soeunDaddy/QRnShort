@@ -1,0 +1,873 @@
+/* ==========================================================================
+   QR Studio (URL2QR) - Modern Radiant Light Theme & Interactive Gradients
+   ========================================================================== */
+
+:root {
+  /* Mouse & Interactive Dynamic Variables */
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --mouse-deg: 135deg;
+  --glow-x: 50%;
+  --glow-y: 50%;
+  --hue-shift: 0deg;
+
+  /* Base Radiant Light Palette (Warm Golden & Pure Cream) */
+  --bg-primary: #faf7f2;
+  --bg-secondary: #f5efe6;
+  --bg-glass: rgba(255, 255, 255, 0.78);
+  --bg-glass-card: rgba(255, 255, 255, 0.88);
+  --bg-glass-hover: rgba(255, 255, 255, 0.95);
+  --bg-input: rgba(255, 255, 255, 0.92);
+
+  /* Brand Accents inspired by the Golden Yellow URL2QR Logo */
+  --accent-gold: #f59e0b;          /* Vibrant Warm Amber */
+  --accent-sun: #fbbf24;           /* Bright Solar Yellow */
+  --accent-orange: #f97316;        /* Golden Sunset Orange */
+  --accent-peach: #fb7185;         /* Soft Sunrise Coral */
+  --accent-deep: #b45309;          /* Rich Deep Gold */
+
+  /* Dynamic & Rich Gradient Presets */
+  --accent-gradient: linear-gradient(var(--mouse-deg, 135deg), #f59e0b 0%, #fbbf24 45%, #f97316 100%);
+  --accent-gradient-hover: linear-gradient(var(--mouse-deg, 135deg), #d97706 0%, #f59e0b 50%, #ea580c 100%);
+  --gold-glow-gradient: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(251, 191, 36, 0.35) 0%, rgba(249, 115, 22, 0.18) 35%, rgba(250, 247, 242, 0) 70%);
+
+  /* High Legibility Typography Colors */
+  --text-primary: #1e293b;         /* Deep Slate Gray / Near Black */
+  --text-secondary: #475569;       /* Balanced Slate */
+  --text-muted: #8c9ba5;           /* Soft Muted Gray */
+  --text-gold: #b45309;            /* Deep Gold Text */
+
+  /* Borders & Highlights */
+  --border-glass: rgba(245, 158, 11, 0.16);
+  --border-glass-strong: rgba(245, 158, 11, 0.32);
+  --border-glass-focus: rgba(245, 158, 11, 0.65);
+  --border-card: rgba(255, 255, 255, 0.9);
+
+  /* Elevation Shadows & Warm Glows */
+  --shadow-subtle: 0 4px 20px rgba(180, 83, 9, 0.06);
+  --shadow-elevated: 0 20px 45px rgba(180, 83, 9, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
+  --shadow-glow: 0 0 35px rgba(245, 158, 11, 0.22);
+  --shadow-card: 0 24px 60px rgba(217, 119, 6, 0.12), 0 8px 24px rgba(0, 0, 0, 0.04);
+
+  /* Typography & Timing */
+  --font-main: 'Outfit', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --transition-smooth: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-quick: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   Dynamic Interactive Background (Mouse-Tracking & Ambient Gradients)
+   ========================================================================== */
+.bg-mesh {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+  background: 
+    radial-gradient(at 10% 20%, rgba(254, 243, 199, 0.8) 0px, transparent 50%),
+    radial-gradient(at 90% 10%, rgba(255, 237, 213, 0.7) 0px, transparent 50%),
+    radial-gradient(at 50% 90%, rgba(254, 215, 170, 0.5) 0px, transparent 55%),
+    radial-gradient(at 80% 80%, rgba(253, 230, 138, 0.6) 0px, transparent 50%),
+    linear-gradient(180deg, #faf7f2 0%, #fffdfa 50%, #f7f2e9 100%);
+  transition: background 0.4s ease;
+}
+
+/* Mouse Following Spotlight Glow */
+.mouse-spotlight {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: var(--gold-glow-gradient);
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+/* Ambient Floating Glow Orbs with Golden/Sunset Accents */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.65;
+  will-change: transform;
+  animation: floatOrb 18s ease-in-out infinite alternate;
+}
+
+.orb-1 {
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, #fde68a 0%, rgba(251, 191, 36, 0.4) 50%, transparent 70%);
+  top: -80px;
+  left: 10%;
+}
+
+.orb-2 {
+  width: 620px;
+  height: 620px;
+  background: radial-gradient(circle, #fed7aa 0%, rgba(249, 115, 22, 0.35) 50%, transparent 70%);
+  bottom: -120px;
+  right: 8%;
+  animation-delay: -6s;
+}
+
+.orb-3 {
+  width: 440px;
+  height: 440px;
+  background: radial-gradient(circle, #fef08a 0%, rgba(234, 179, 8, 0.35) 50%, transparent 70%);
+  top: 35%;
+  left: 55%;
+  animation-delay: -12s;
+}
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(45px, -35px) scale(1.1) rotate(60deg); }
+  100% { transform: translate(-35px, 45px) scale(0.92) rotate(-30deg); }
+}
+
+/* ==========================================================================
+   Header Styles (Clean Light Glass & Logo)
+   ========================================================================== */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.2rem;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-glass);
+  box-shadow: 0 2px 16px rgba(180, 83, 9, 0.04);
+}
+
+.header-left .brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-quick);
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.header-left .brand-logo:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.logo-image {
+  height: 40px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  border-radius: 9px;
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.25);
+  transition: transform 0.25s ease;
+}
+
+.brand-logo:hover .logo-image {
+  transform: scale(1.04);
+}
+
+.logo-fallback {
+  width: 40px;
+  height: 40px;
+  background: var(--accent-gradient);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+}
+
+.brand-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+.brand-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  background: var(--accent-gradient);
+  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
+}
+
+.header-right .status-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 7px 16px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--border-glass);
+  border-radius: 100px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-subtle);
+}
+
+/* ==========================================================================
+   Navigation Switcher (QR Studio <-> ShortLink Studio)
+   ========================================================================== */
+.nav-switcher {
+  display: flex;
+  align-items: center;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid var(--border-glass-strong);
+  padding: 4px;
+  border-radius: 40px;
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(180, 83, 9, 0.05);
+}
+
+.nav-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 18px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.nav-tab i {
+  font-size: 0.92rem;
+}
+
+.nav-tab:hover {
+  color: var(--accent-deep);
+  background: rgba(255, 255, 255, 0.7);
+  transform: translateY(-1px);
+}
+
+.nav-tab.active {
+  background: var(--accent-gradient);
+  color: #ffffff;
+  box-shadow: 0 3px 12px rgba(245, 158, 11, 0.35);
+}
+
+.nav-tab.active:hover {
+  color: #ffffff;
+  background: var(--accent-gradient-hover);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.35); opacity: 1; box-shadow: 0 0 14px #f59e0b; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+/* ==========================================================================
+   Main Layout & Centered Viewport
+   ========================================================================== */
+.main-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 85px 1.5rem 40px;
+  z-index: 10;
+}
+
+/* ==========================================================================
+   Hero Intro & Dynamic Interaction Container
+   ========================================================================== */
+.interaction-container {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 700px;
+  padding: 0 1.25rem;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: var(--transition-smooth);
+}
+
+/* Initial State: Perfectly Centered Hero + Input */
+body.initial-state .interaction-container {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Generated State: Slid Down to Bottom Dock */
+body.generated-state .interaction-container {
+  top: auto;
+  bottom: 28px;
+  transform: translate(-50%, 0);
+  max-width: 640px;
+}
+
+/* Hero Intro Typography */
+.hero-intro {
+  text-align: center;
+  margin-bottom: 2.4rem;
+  transition: var(--transition-smooth);
+  opacity: 1;
+  max-height: 250px;
+  transform: translateY(0);
+}
+
+body.generated-state .hero-intro {
+  opacity: 0;
+  max-height: 0;
+  margin-bottom: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-title {
+  font-size: 2.9rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.035em;
+  color: var(--text-primary);
+  margin-bottom: 0.9rem;
+}
+
+.text-gradient {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  font-weight: 900;
+  filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.25));
+}
+
+.hero-subtitle {
+  font-size: 1.08rem;
+  color: var(--text-secondary);
+  font-weight: 450;
+  line-height: 1.65;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* URL Input Form Design - Radiant Glass Container */
+.url-input-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.input-glass-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid rgba(245, 158, 11, 0.22);
+  border-radius: 22px;
+  padding: 8px 10px 8px 22px;
+  box-shadow: var(--shadow-card), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  transition: var(--transition-quick);
+}
+
+.input-glass-box:focus-within,
+.input-glass-box:hover {
+  border-color: var(--border-glass-focus);
+  box-shadow: 0 12px 35px rgba(245, 158, 11, 0.2), 0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 2px rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.92);
+  transform: translateY(-1px);
+}
+
+.input-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-gold);
+  font-size: 1.25rem;
+  margin-right: 14px;
+}
+
+.url-input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  padding: 12px 4px;
+}
+
+.url-input-field::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.input-clear-btn {
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  color: var(--text-secondary);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  font-size: 0.85rem;
+  transition: var(--transition-quick);
+}
+
+.input-clear-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+}
+
+.submit-btn {
+  background: var(--accent-gradient);
+  border: none;
+  color: #ffffff;
+  padding: 13px 26px;
+  border-radius: 16px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+  transition: var(--transition-quick);
+  flex-shrink: 0;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.55);
+  filter: brightness(1.05);
+}
+
+.submit-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.submit-btn .btn-icon {
+  font-size: 0.95rem;
+  transition: transform 0.25s ease;
+}
+
+.submit-btn:hover .btn-icon {
+  transform: translateX(4px);
+}
+
+/* Quick Suggestions */
+.quick-suggests {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  transition: var(--transition-smooth);
+}
+
+body.generated-state .quick-suggests {
+  display: none;
+}
+
+.suggest-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.suggest-tag {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 100px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: var(--transition-quick);
+}
+
+.suggest-tag:hover {
+  background: var(--accent-gradient);
+  border-color: transparent;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+}
+
+/* ==========================================================================
+   Center QR Code Display Card - Bright Glass Aesthetic
+   ========================================================================== */
+.qr-display-section {
+  position: fixed;
+  top: calc(50% - 30px);
+  left: 50%;
+  transform: translate(-50%, -45%) scale(0.92);
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition-smooth);
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body.generated-state .qr-display-section {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.qr-card {
+  position: relative;
+  background: var(--bg-glass-card);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 30px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 30px 70px rgba(217, 119, 6, 0.15), 0 10px 25px rgba(0, 0, 0, 0.05), inset 0 2px 2px rgba(255, 255, 255, 1);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  user-select: none;
+  max-width: 380px;
+  width: 90vw;
+}
+
+.qr-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 35px 80px rgba(245, 158, 11, 0.25), 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+.qr-card:active {
+  transform: scale(0.98);
+}
+
+.qr-card-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.qr-card-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent-deep);
+  background: rgba(254, 243, 199, 0.9);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 5px 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.1);
+}
+
+.format-tag {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* The QR Canvas & Wrapper Frame */
+.qr-wrapper {
+  position: relative;
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 22px;
+  box-shadow: 0 12px 35px rgba(180, 83, 9, 0.12), inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-quick);
+}
+
+.qrcode-canvas-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.qrcode-canvas-container canvas,
+.qrcode-canvas-container img {
+  border-radius: 8px;
+  width: 220px !important;
+  height: 220px !important;
+  display: block;
+}
+
+/* Interactive Hover Overlay on QR Code */
+.qr-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: var(--transition-quick);
+  border-radius: 22px;
+}
+
+.qr-card:hover .qr-hover-overlay {
+  opacity: 1;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transform: translateY(8px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.qr-card:hover .overlay-content {
+  transform: translateY(0);
+}
+
+.overlay-content i {
+  font-size: 2.2rem;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: bounceArrow 1.4s ease-in-out infinite;
+}
+
+@keyframes bounceArrow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Card Footer */
+.qr-card-footer {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.qr-target-url {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  max-width: 280px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  text-decoration: underline;
+  text-decoration-color: rgba(245, 158, 11, 0.4);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.qr-target-url:hover {
+  color: var(--accent-deep);
+}
+
+.qr-action-chips {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.chip-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(245, 158, 11, 0.25);
+  border-radius: 14px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: var(--transition-quick);
+}
+
+.chip-btn:hover {
+  background: rgba(254, 243, 199, 0.7);
+  border-color: rgba(245, 158, 11, 0.45);
+  transform: translateY(-1px);
+}
+
+.chip-btn.primary-chip {
+  background: var(--accent-gradient);
+  border: none;
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+}
+
+.chip-btn.primary-chip:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+}
+
+/* ==========================================================================
+   Toast Notification System (Warm Amber Accent)
+   ========================================================================== */
+.toast-container {
+  position: fixed;
+  top: 92px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(245, 158, 11, 0.4);
+  color: var(--text-primary);
+  padding: 12px 24px;
+  border-radius: 100px;
+  box-shadow: 0 12px 35px rgba(245, 158, 11, 0.2), 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-size: 0.92rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-20px) scale(0.9);
+  transition: var(--transition-smooth);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.toast-icon {
+  font-size: 1.15rem;
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: 2.15rem;
+  }
+  
+  .app-header {
+    padding: 0 1.2rem;
+    height: 66px;
+  }
+
+  .qr-card {
+    padding: 20px;
+    max-width: 330px;
+  }
+
+  .qrcode-canvas-container canvas,
+  .qrcode-canvas-container img {
+    width: 195px !important;
+    height: 195px !important;
+  }
+
+  body.generated-state .interaction-container {
+    bottom: 18px;
+    padding: 0 1rem;
+  }
+  
+  .input-glass-box {
+    padding: 6px 8px 6px 16px;
+  }
+
+  .submit-btn {
+    padding: 11px 20px;
+    font-size: 0.94rem;
+  }
+}
