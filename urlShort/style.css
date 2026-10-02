@@ -183,7 +183,21 @@ html, body {
   background: rgba(255, 255, 255, 0.5);
 }
 
-.logo-icon-wrap {
+.logo-image {
+  height: 40px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  border-radius: 9px;
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.25);
+  transition: transform 0.25s ease;
+}
+
+.brand-logo:hover .logo-image {
+  transform: scale(1.04);
+}
+
+.logo-fallback {
   width: 40px;
   height: 40px;
   background: var(--accent-gradient);
@@ -192,13 +206,8 @@ html, body {
   align-items: center;
   justify-content: center;
   font-size: 1.25rem;
-  color: #ffffff;
+  color: #fff;
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
-  transition: transform 0.25s ease;
-}
-
-.brand-logo:hover .logo-icon-wrap {
-  transform: scale(1.06) rotate(-5deg);
 }
 
 .brand-info {

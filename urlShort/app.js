@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const visitUrlBtn = document.getElementById('visitUrlBtn');
   const openInQrBtn = document.getElementById('openInQrBtn');
   const resetShortenerBtn = document.getElementById('resetShortenerBtn');
-  const brandResetBtn = document.getElementById('brandResetBtn');
   const quickSuggests = document.getElementById('quickSuggests');
   const historyCard = document.getElementById('historyCard');
   const historyList = document.getElementById('historyList');
@@ -175,12 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Reset button in result card
     resetShortenerBtn.addEventListener('click', () => {
-      resetToInitialState();
-    });
-
-    // Brand Logo click -> Reset
-    brandResetBtn.addEventListener('click', (e) => {
-      e.preventDefault();
       resetToInitialState();
     });
 

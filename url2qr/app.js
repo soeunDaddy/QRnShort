@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const displayUrl = document.getElementById('displayUrl');
   const copyUrlBtn = document.getElementById('copyUrlBtn');
   const downloadJpgBtn = document.getElementById('downloadJpgBtn');
-  const brandResetBtn = document.getElementById('brandResetBtn');
   const quickSuggests = document.getElementById('quickSuggests');
   const toastContainer = document.getElementById('toastContainer');
   const toast = document.getElementById('toast');
@@ -163,12 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         copyToClipboard(currentQrData);
       }
-    });
-
-    // Reset to Initial State on Logo Click
-    brandResetBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      resetToInitialState();
     });
 
     // Check URL Query Parameters (e.g., from URL Shortener 'QR코드 생성' button)

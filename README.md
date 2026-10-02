@@ -32,13 +32,14 @@ QR 코드 생성 및 초고속 OpenAPI URL 단축 기능을 제공하는 올인�
 프로젝트06/
 ├── index.html              # 통합 메인 허브 포털
 ├── README.md               # 프로젝트 문서
+├── img/                    # 공용 에셋 디렉토리
+│   └── logo.png            # 통합 브랜드 로고 이미지
 ├── url2qr/                 # QR 코드 생성기 웹앱
-│   ├── index.html
+│   ├── index.html          # 메인 화면 (로고: ../img/logo.png)
 │   ├── style.css
-│   ├── app.js
-│   └── img/logo.png
-└── urlShort/               # URL 단축기 웹앱 (신규 생성)
-    ├── index.html
+│   └── app.js
+└── urlShort/               # URL 단축기 웹앱
+    ├── index.html          # 메인 화면 (로고: ../img/logo.png)
     ├── style.css
     └── app.js
 ```

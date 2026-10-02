@@ -147,7 +147,21 @@
       transform: translateY(-1px);
     }
 
-    .logo-badge-icon {
+    .logo-image {
+      height: 40px;
+      width: auto;
+      max-width: 160px;
+      object-fit: contain;
+      border-radius: 9px;
+      box-shadow: 0 3px 10px rgba(245, 158, 11, 0.25);
+      transition: transform 0.25s ease;
+    }
+
+    .brand-logo:hover .logo-image {
+      transform: scale(1.04);
+    }
+
+    .logo-fallback {
       width: 40px;
       height: 40px;
       background: var(--accent-gradient);
@@ -156,26 +170,8 @@
       align-items: center;
       justify-content: center;
       font-size: 1.25rem;
-      color: #ffffff;
+      color: #fff;
       box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
-    }
-
-    .brand-title {
-      font-size: 1.3rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: var(--text-primary);
-    }
-
-    .brand-badge {
-      font-size: 0.65rem;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      background: var(--accent-gradient);
-      color: #ffffff;
-      padding: 3px 8px;
-      border-radius: 20px;
-      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
     }
 
     /* Requirement 1: QR코드 & URL단축 네비게이션 버튼 */
@@ -498,13 +494,10 @@
   <!-- Header Section with Logo and Quick Navigation -->
   <header class="app-header">
     <div class="header-left">
-      <a href="index.html" class="brand-logo" title="스마트 웹 유틸리티 허브">
-        <div class="logo-badge-icon">
-          <i class="fa-solid fa-layer-group"></i>
-        </div>
-        <div class="brand-info">
-          <span class="brand-title">SmartHub</span>
-          <span class="brand-badge">SUITE</span>
+      <a href="index.html" class="brand-logo" title="홈으로">
+        <img src="img/logo.png" alt="URL2QR Logo" class="logo-image" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';">
+        <div id="logoFallback" class="logo-fallback" style="display:none;">
+          <i class="fa-solid fa-qrcode"></i>
         </div>
       </a>
     </div>
